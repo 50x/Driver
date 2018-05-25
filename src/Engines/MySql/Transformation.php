@@ -62,12 +62,15 @@ class Transformation extends Command implements CommandInterface
     protected function applyTransformationsTo(\PDO $connection, $transformations)
     {
         array_walk($transformations, function ($query) use ($connection) {
-            try{
+            try {
+                $connection->beginTransaction();
                 $connection->query($query);
-            }catch (\PDOException $e){
+                $connection->commit();
+                $this->logger->info("Successful environment query: $query");
+            } catch (\PDOException $e) {
+                $connection->rollBack();
                 $this->logger->warning('ERROR MYSQL: ' . $e->getMessage());
             }
         });
     }
-
 }
