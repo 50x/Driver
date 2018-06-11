@@ -65,7 +65,9 @@ class Upload extends Command implements CommandInterface
 
     private function getFileName(EnvironmentInterface $environment)
     {
-        return str_replace('{{environment}}', '-' . $environment->getName(), $this->getFileKey());
+        $replace = str_replace('{{environment}}', '-' . $environment->getName(), $this->getFileKey());
+        $date = date('YmdHis');
+        return $date . $replace;
     }
 
     private function getFileKey()
