@@ -172,5 +172,37 @@ class Configuration
         foreach ($this->loader->get() as $file) {
             $this->loadConfigurationFor((string)$file);
         };
+
+        $databaseServer = $_SERVER['DATABASE_DRIVER'];
+        $mysqlServer = $_SERVER['MYSQL_DRIVER'];
+        $s3Server = $_SERVER['S3_DRIVER'];
+        $rdsServer = $_SERVER['RDS_DRIVER'];
+        $ec2Server = $_SERVER['EC2_DRIVER'];
+
+        if ($databaseServer != null) {
+            if (json_decode($databaseServer) != null){
+                $this->nodes['connections']['database'] = json_decode($databaseServer,true);
+            }
+        }
+        if ($mysqlServer != null) {
+            if (json_decode($mysqlServer) != null){
+                $this->nodes['connections']['mysql'] = json_decode($mysqlServer,true);
+            }
+        }
+        if ($s3Server != null) {
+            if (json_decode($s3Server) != null){
+                $this->nodes['connections']['s3'] = json_decode($s3Server,true);
+            }
+        }
+        if ($rdsServer != null) {
+            if (json_decode($rdsServer) != null){
+                $this->nodes['connections']['rds'] = json_decode($rdsServer,true);
+            }
+        }
+        if ($ec2Server != null) {
+            if (json_decode($ec2Server) != null){
+                $this->nodes['connections']['ec2'] = json_decode($ec2Server,true);
+            }
+        }
     }
 }
